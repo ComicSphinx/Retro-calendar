@@ -1,7 +1,8 @@
 /* @Author: Daniil Maslov */
 
 SYSTEMTIME getDate();
-short* getDaysInMonths();
+short getQuantityDaysInMonth(short month);
+short* getQuantityDaysInMonths();
 short computeQuantityDaysInMonthOfYear(short month, short year);
 
 
@@ -13,10 +14,16 @@ SYSTEMTIME getDate()
     return date;
 }
 
-short* getDaysInMonths()
+short getQuantityDaysInMonth(short month)
+{
+    short* days = getQuantityDaysInMonths();
+    return days[month-1];
+}
+
+short* getQuantityDaysInMonths()
 {
     SYSTEMTIME date = getDate();
-    static short quantityDaysInMonths[12];
+    short* quantityDaysInMonths = malloc(12*sizeof(short));
 
     for (int i = 0; i < 12; ++i)
     {

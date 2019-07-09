@@ -13,13 +13,8 @@ void main()
 {   
     HStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
     GetConsoleScreenBufferInfo(HStdOut, &CsbInfo);
-
-    SYSTEMTIME date = getDate();
     
+    system("cls");
     SetConsoleTitle("Pretty calendar");
-    
-    drawCalendar();
-    drawNowDate();
-    drawTitleMonth(date.wMonth);
-    listenToButtonClicks();
+    runCalendar();
 }
