@@ -1,34 +1,80 @@
 void runFillDaysInMonths();
+short getYearFromFile();
+void writeYearInFile();
 void fillDaysInMonths();
 char* getDaysInEveryMonthFromFile();
-void writeInFileArrayQuantityDaysInEveryMonthOfYear();
+void writeQuantityDaysInEveryMonthInFile();
 short* getArrayQuantityDaysInEveryMonthOfYear();
 short computeQuantityDaysInMonthOfYear(short month, short year);
 SYSTEMTIME getDate();
 
 
-#define FILE_NAME "daysInEveryMonth.txt"
+#define FILE_NAME_CONTAINS_DAYS_IN_MONTHS "daysInEveryMonth.txt"
+#define FILE_NAME_CONTAINS_YEAR "year.txt"
 
 
-short daysInMonths[12];
-short counterMonths = 0;
+short DaysInMonths[12];
+short CounterMonths = 0;
 
-// TODO: надо делать runFillDaysInMonths, если текущий год соответствует году из файла
-// т.е. нужно создать ещё одну функцию, которая записывает текущий год в файл.
-// Если годы не совпадают -> запускаем writeInFile по новой.
+
 void runFillDaysInMonths()
 {
+    short yearInFile = getYearFromFile();
+    SYSTEMTIME date = getDate();
     FILE* file;
-    if ((file = fopen(FILE_NAME, "r")) == NULL)
+
+    if (yearInFile == date.wYear)
     {
-        writeInFileArrayQuantityDaysInEveryMonthOfYear();
-        fillDaysInMonths();
+        if ((file = fopen(FILE_NAME_CONTAINS_DAYS_IN_MONTHS, "r")) == NULL)
+        {
+            writeQuantityDaysInEveryMonthInFile();
+            fillDaysInMonths();
+        }
+        else
+        {
+            fillDaysInMonths();
+        }
     }
     else
     {
+        writeYearInFile();
+        writeQuantityDaysInEveryMonthInFile();
         fillDaysInMonths();
     }
-    
+}
+
+short getYearFromFile()
+{
+    FILE *file;
+    SYSTEMTIME date = getDate();
+    static short year;
+
+    if ((file = fopen(FILE_NAME_CONTAINS_YEAR, "r")) == NULL)
+    {
+        printf("Can't open 'year.txt'");
+    }
+    else
+    {
+        fscanf(file, "%d", &year);
+        fclose(file);
+        
+        return year;
+    }
+}
+
+void writeYearInFile()
+{
+    FILE* file;
+    SYSTEMTIME date = getDate();
+
+    if ((file = fopen(FILE_NAME_CONTAINS_YEAR, "w")) == NULL)
+    {
+        printf("Can't create 'year.txt'");
+    }
+    else
+    {
+        fprintf(file, "%d", date.wYear);
+    }
 }
 
 void fillDaysInMonths()
@@ -42,13 +88,13 @@ void fillDaysInMonths()
             ++j;
             if (stringDaysInMonths[j] == '0')
             {
-                daysInMonths[counterMonths] = 30;
-                ++counterMonths;
+                DaysInMonths[CounterMonths] = 30;
+                ++CounterMonths;
             }
             else if (stringDaysInMonths[j] == '1')
             {
-                daysInMonths[counterMonths] = 31;
-                ++counterMonths;
+                DaysInMonths[CounterMonths] = 31;
+                ++CounterMonths;
             }
         }
         else if (stringDaysInMonths[j] == '2')
@@ -56,13 +102,13 @@ void fillDaysInMonths()
             ++j;
             if (stringDaysInMonths[j] == '9')
             {
-                daysInMonths[counterMonths] = 29;
-                ++counterMonths;
+                DaysInMonths[CounterMonths] = 29;
+                ++CounterMonths;
             }
             else if (stringDaysInMonths[j] == '8')
             {
-                daysInMonths[counterMonths] = 28;
-                ++counterMonths;
+                DaysInMonths[CounterMonths] = 28;
+                ++CounterMonths;
             }
         }
     }
@@ -73,9 +119,9 @@ char* getDaysInEveryMonthFromFile()
     FILE* file;
     static char string[24];
     
-    if ((file = fopen(FILE_NAME, "r")) == NULL)
+    if ((file = fopen(FILE_NAME_CONTAINS_DAYS_IN_MONTHS, "r")) == NULL)
     {
-        printf("Не удалось прочесть файл daysInEveryMonth");
+        printf("Can't read 'daysInEveryMonth.txt'");
     }
     else
     {
@@ -86,19 +132,21 @@ char* getDaysInEveryMonthFromFile()
     }
 }
 
-void writeInFileArrayQuantityDaysInEveryMonthOfYear()
+void writeQuantityDaysInEveryMonthInFile()
 {
     FILE* file;
     short* ptrToDaysInEveryMonth = getArrayQuantityDaysInEveryMonthOfYear();
 
-    if ((file = fopen(FILE_NAME, "w")) == NULL)
+    if ((file = fopen(FILE_NAME_CONTAINS_DAYS_IN_MONTHS, "w")) == NULL)
     {
-        printf("Не удалось создать файл daysInEveryMonth");
+        printf("Can't create 'daysInEveryMonth.txt'");
     }
     else
     {
         for (int j = 0; j < 12; ++j)
+        {
             fprintf(file, "%d", ptrToDaysInEveryMonth[j]);
+        }
 
         fclose(file);
     }
