@@ -1,3 +1,14 @@
+/* @Author: Daniil Maslov */
+
+#define FILE_NAME_CONTAINS_DAYS_IN_MONTHS "daysInEveryMonth.txt"
+#define FILE_NAME_CONTAINS_YEAR "year.txt"
+
+
+short DaysInMonths[12];
+short CounterMonths = 0;
+
+
+short getDaysInCurrentMonthFromFile(short num);
 void runFillDaysInMonths();
 short getYearFromFile();
 void writeYearInFile();
@@ -9,13 +20,10 @@ short computeQuantityDaysInMonthOfYear(short month, short year);
 SYSTEMTIME getDate();
 
 
-#define FILE_NAME_CONTAINS_DAYS_IN_MONTHS "daysInEveryMonth.txt"
-#define FILE_NAME_CONTAINS_YEAR "year.txt"
-
-
-short DaysInMonths[12];
-short CounterMonths = 0;
-
+short getDaysInCurrentMonthFromFile(short num)
+{
+    return DaysInMonths[num-1];
+}
 
 void runFillDaysInMonths()
 {
