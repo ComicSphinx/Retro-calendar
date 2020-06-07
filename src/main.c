@@ -15,4 +15,5 @@ void main()
     SetConsoleTitle("Pretty calendar");
     runFillDaysInMonths();
     drawCalendar();
+    moveCursor();
 }
