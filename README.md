@@ -13,5 +13,5 @@ It does not ready to use right now.
     a.exe
 
  ## Author
-   - **Dannil Maslov** -
+   - **Daniil Maslov** -
     [Desasth](https://github.com/Desasth)
