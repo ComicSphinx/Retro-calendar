@@ -21,7 +21,18 @@ typedef struct
 CalendarDays calendarDays;
 HANDLE HStdOut;
 CONSOLE_SCREEN_BUFFER_INFO CsbInfo;
+char WeekDays[7][3] = {"Mon", "Tue", 
+                       "Wed", "Thu", 
+                       "Fri", "Sat", 
+                       "Sun"};
 
+char Months[12][3] = {"Jan", "Feb", "Mar", 
+                      "Apr", "May", "Jun", 
+                      "Jul", "Aug", "Sep", 
+                      "Oct", "Nov", "Dec"};
+
+void drawCurrentDayMonthYear();
+void drawTitleMonth(WORD month);
 void moveCursor();
 void installCursors();
 void redrawNumber();
@@ -31,6 +42,31 @@ void fillCalendarDays(short daysNumber);
 COORD getStartPosition();
 ConsoleSize getConsoleSize();
 void drawMonthByDays(COORD startPosition);
+
+void drawCurrentDayMonthYear()
+{
+    SYSTEMTIME date = getDate();
+    COORD cursor;
+    cursor.X = 50;
+    cursor.Y = 25;
+
+    SetConsoleCursorPosition(HStdOut, cursor);
+    
+    printf("Now:   ");
+    printf("%c%c%c | ", Months[date.wMonth-1][0], Months[date.wMonth-1][1], Months[date.wMonth-1][2]);
+    printf("%d | ", date.wDay);
+    printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
+}
+
+void drawTitleMonth(WORD month)
+{
+    COORD cursor;
+    cursor.X = 56;
+    cursor.Y = 3;
+    SetConsoleCursorPosition(HStdOut, cursor);
+
+    printf("< %c%c%c >", Months[month-1][0], Months[month-1][1], Months[month-1][2]);
+}
 
 void moveCursor()
 {
@@ -133,7 +169,7 @@ COORD getStartPosition()
     short x = (startPosition.X / 2) / 2;
     startPosition.X += x*3;
 
-    startPosition.Y = 2;
+    startPosition.Y = 6;
 
     return startPosition;
 }

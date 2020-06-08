@@ -9,11 +9,14 @@
 #include "calendar.c"
 
 
-
 void main()
 {   
+    SYSTEMTIME date = getDate();
+    
     SetConsoleTitle("Pretty calendar");
     runFillDaysInMonths();
     drawCalendar();
+    drawCurrentDayMonthYear();
+    drawTitleMonth(date.wMonth);
     moveCursor();
 }
