@@ -14,9 +14,10 @@ void main()
     SYSTEMTIME date = getDate();
     
     SetConsoleTitle("Pretty calendar");
+    
     runFillDaysInMonths();
     drawCalendar();
-    drawCurrentDayMonthYear();
+    drawNowDate();
     drawTitleMonth(date.wMonth);
     moveCursor();
 }

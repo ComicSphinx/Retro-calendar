@@ -31,113 +31,17 @@ char Months[12][3] = {"Jan", "Feb", "Mar",
                       "Jul", "Aug", "Sep", 
                       "Oct", "Nov", "Dec"};
 
-void drawCurrentDayMonthYear();
-void drawTitleMonth(WORD month);
-void moveCursor();
-void installCursors();
-void redrawNumber();
-char getMovement();
 void drawCalendar();
 void fillCalendarDays(short daysNumber);
 COORD getStartPosition();
 ConsoleSize getConsoleSize();
-void drawMonthByDays(COORD startPosition);
+void drawMonthByDays(COORD cursorPos);
+void drawNowDate();
+void drawTitleMonth(WORD month);
+void moveCursor();
+void installCursors();
+void redrawNumber();
 
-void drawCurrentDayMonthYear()
-{
-    SYSTEMTIME date = getDate();
-    COORD cursor;
-    cursor.X = 50;
-    cursor.Y = 25;
-
-    SetConsoleCursorPosition(HStdOut, cursor);
-    
-    printf("Now:   ");
-    printf("%c%c%c | ", Months[date.wMonth-1][0], Months[date.wMonth-1][1], Months[date.wMonth-1][2]);
-    printf("%d | ", date.wDay);
-    printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
-}
-
-void drawTitleMonth(WORD month)
-{
-    COORD cursor;
-    cursor.X = 56;
-    cursor.Y = 3;
-    SetConsoleCursorPosition(HStdOut, cursor);
-
-    printf("< %c%c%c >", Months[month-1][0], Months[month-1][1], Months[month-1][2]);
-}
-
-void moveCursor()
-{
-    char c;
-    
-    installCursors();
-
-    while (1)
-    {
-        c = getMovement();
-
-        if (c == 'w')
-        {
-            printf("w pressed");
-            calendarDays.numberCursor -= 7;
-            redrawNumber();
-        }
-        else if (c == 'a')
-        {
-            printf("a pressed");
-            calendarDays.numberCursor--;
-            redrawNumber();
-        }
-        else if (c == 's')
-        {
-            printf("s pressed");
-            calendarDays.numberCursor += 7;
-            redrawNumber();
-        }
-        else if (c == 'd')
-        {
-            printf("d pressed");
-            calendarDays.numberCursor++;
-            redrawNumber();
-        }
-    }
-}
-
-void installCursors()
-{
-    SYSTEMTIME date = getDate();
-
-    for (int j = 30; j > 28; --j)
-    {
-        if (calendarDays.monthDays[j] != 0)
-        {
-            calendarDays.numberCursor = calendarDays.monthDays[date.wDay - 1];
-            calendarDays.coordsCursor = calendarDays.numbersCoords[date.wDay - 1];
-            SetConsoleCursorPosition(HStdOut, calendarDays.coordsCursor);
-
-            break;
-        }
-    }
-}
-
-void redrawNumber()
-{
-    calendarDays.coordsCursor = calendarDays.numbersCoords[calendarDays.numberCursor - 1];
-    SetConsoleCursorPosition(HStdOut, calendarDays.coordsCursor);
-    printf("%d", calendarDays.numberCursor);
-}
-
-char getMovement()
-{
-    char c;
-    
-    if ((c = getchar()) != '.')
-    {
-        return c;
-    }
-}
 
 void drawCalendar()
 {
@@ -213,4 +117,90 @@ void drawMonthByDays(COORD cursorPos)
         cursorPos.X = startCursorPosX;
         cursorPos.Y += 3;
     }
+}
+
+void drawNowDate()
+{
+    SYSTEMTIME date = getDate();
+    COORD cursor;
+    cursor.X = 50;
+    cursor.Y = 25;
+
+    SetConsoleCursorPosition(HStdOut, cursor);
+    
+    printf("Now:   ");
+    printf("%c%c%c | ", Months[date.wMonth-1][0], Months[date.wMonth-1][1], Months[date.wMonth-1][2]);
+    printf("%d | ", date.wDay);
+    printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
+}
+
+void drawTitleMonth(WORD month)
+{
+    COORD cursor;
+    cursor.X = 56;
+    cursor.Y = 3;
+    SetConsoleCursorPosition(HStdOut, cursor);
+
+    printf("< %c%c%c >", Months[month-1][0], Months[month-1][1], Months[month-1][2]);
+}
+
+void moveCursor()
+{
+    char c;
+    
+    installCursors();
+
+    while (1)
+    {
+        c = getchar();
+
+        if (c == 'w')
+        {
+            calendarDays.numberCursor -= 7;
+            redrawNumber();
+        }
+        else if (c == 'a')
+        {
+            calendarDays.numberCursor--;
+            redrawNumber();
+        }
+        else if (c == 's')
+        {
+            calendarDays.numberCursor += 7;
+            redrawNumber();
+        }
+        else if (c == 'd')
+        {
+            calendarDays.numberCursor++;
+            redrawNumber();
+        }
+        else if (c == '.')
+        {
+            exit(1);
+        }
+    }
+}
+
+void installCursors()
+{
+    SYSTEMTIME date = getDate();
+
+    for (int j = 30; j > 28; --j)
+    {
+        if (calendarDays.monthDays[j] != 0)
+        {
+            calendarDays.numberCursor = calendarDays.monthDays[date.wDay - 1];
+            calendarDays.coordsCursor = calendarDays.numbersCoords[date.wDay - 1];
+            SetConsoleCursorPosition(HStdOut, calendarDays.coordsCursor);
+
+            break;
+        }
+    }
+}
+
+void redrawNumber()
+{
+    calendarDays.coordsCursor = calendarDays.numbersCoords[calendarDays.numberCursor - 1];
+    SetConsoleCursorPosition(HStdOut, calendarDays.coordsCursor);
+    printf("%d", calendarDays.numberCursor);
 }
