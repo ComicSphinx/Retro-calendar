@@ -11,13 +11,13 @@ short CounterMonths = 0;
 short getDaysInCurrentMonthFromFile(short num);
 void runFillDaysInMonths();
 short getYearFromFile();
-void writeYearInFile();
-void fillDaysInMonths();
-char* getDaysInEveryMonthFromFile();
+SYSTEMTIME getDate();
 void writeQuantityDaysInEveryMonthInFile();
 short* getArrayQuantityDaysInEveryMonthOfYear();
 short computeQuantityDaysInMonthOfYear(short month, short year);
-SYSTEMTIME getDate();
+void fillDaysInMonths();
+char* getDaysInEveryMonthFromFile();
+void writeYearInFile();
 
 
 short getDaysInCurrentMonthFromFile(short num)
@@ -70,19 +70,56 @@ short getYearFromFile()
     }
 }
 
-void writeYearInFile()
+SYSTEMTIME getDate()
+{
+    SYSTEMTIME date;
+    GetLocalTime(&date);
+
+    return date;
+}
+
+void writeQuantityDaysInEveryMonthInFile()
 {
     FILE* file;
-    SYSTEMTIME date = getDate();
+    short* ptrToDaysInEveryMonth = getArrayQuantityDaysInEveryMonthOfYear();
 
-    if ((file = fopen(FILE_NAME_CONTAINS_YEAR, "w")) == NULL)
+    if ((file = fopen(FILE_NAME_CONTAINS_DAYS_IN_MONTHS, "w")) == NULL)
     {
-        printf("Can't create 'year.txt'");
+        printf("Can't create 'daysInEveryMonth.txt'");
     }
     else
     {
-        fprintf(file, "%d", date.wYear);
+        for (int j = 0; j < 12; ++j)
+        {
+            fprintf(file, "%d", ptrToDaysInEveryMonth[j]);
+        }
+
+        fclose(file);
     }
+}
+
+short* getArrayQuantityDaysInEveryMonthOfYear()
+{
+    SYSTEMTIME date = getDate();
+    static short quantityDaysInMonths[12];
+
+    for (int i = 0; i < 12; ++i)
+    {
+        quantityDaysInMonths[i] = computeQuantityDaysInMonthOfYear(i+1, date.wYear);
+    }
+
+    return quantityDaysInMonths;
+}
+
+short computeQuantityDaysInMonthOfYear(short month, short year)
+{
+    double quantity = 28 + ((int)(month + floor(month / 8)) % 2) + 2 % month +
+        floor((1 + (1 - (year % 4 + 2) % (year % 4 + 1)) * ((year % 100 + 2) % (year % 100 + 1)) +
+            (1 - (year % 400 + 2) % (year % 400 + 1))) / month) + floor(1 / month) -
+                floor(((1 - (year % 4 + 2) % (year % 4 + 1)) * ((year % 100 + 2) % (year % 100 + 1)) +
+                    (1 - (year % 400 + 2) % (year % 400 + 1))) / month);
+    
+    return quantity;
 }
 
 void fillDaysInMonths()
@@ -140,54 +177,17 @@ char* getDaysInEveryMonthFromFile()
     }
 }
 
-void writeQuantityDaysInEveryMonthInFile()
+void writeYearInFile()
 {
     FILE* file;
-    short* ptrToDaysInEveryMonth = getArrayQuantityDaysInEveryMonthOfYear();
+    SYSTEMTIME date = getDate();
 
-    if ((file = fopen(FILE_NAME_CONTAINS_DAYS_IN_MONTHS, "w")) == NULL)
+    if ((file = fopen(FILE_NAME_CONTAINS_YEAR, "w")) == NULL)
     {
-        printf("Can't create 'daysInEveryMonth.txt'");
+        printf("Can't create 'year.txt'");
     }
     else
     {
-        for (int j = 0; j < 12; ++j)
-        {
-            fprintf(file, "%d", ptrToDaysInEveryMonth[j]);
-        }
-
-        fclose(file);
+        fprintf(file, "%d", date.wYear);
     }
-}
-
-short* getArrayQuantityDaysInEveryMonthOfYear()
-{
-    SYSTEMTIME date = getDate();
-    static short quantityDaysInMonths[12];
-
-    for (int i = 0; i < 12; ++i)
-    {
-        quantityDaysInMonths[i] = computeQuantityDaysInMonthOfYear(i+1, date.wYear);
-    }
-
-    return quantityDaysInMonths;
-}
-
-short computeQuantityDaysInMonthOfYear(short month, short year)
-{
-    double quantity = 28 + ((int)(month + floor(month / 8)) % 2) + 2 % month +
-        floor((1 + (1 - (year % 4 + 2) % (year % 4 + 1)) * ((year % 100 + 2) % (year % 100 + 1)) +
-            (1 - (year % 400 + 2) % (year % 400 + 1))) / month) + floor(1 / month) -
-                floor(((1 - (year % 4 + 2) % (year % 4 + 1)) * ((year % 100 + 2) % (year % 100 + 1)) +
-                    (1 - (year % 400 + 2) % (year % 400 + 1))) / month);
-    
-    return quantity;
-}
-
-SYSTEMTIME getDate()
-{
-    SYSTEMTIME date;
-    GetLocalTime(&date);
-
-    return date;
 }
