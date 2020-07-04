@@ -37,7 +37,9 @@ COORD getStartPosition();
 ConsoleSize getConsoleSize();
 void drawMonthByDays(COORD cursorPos);
 void drawNowDate();
+COORD getCoordsToDrawDate();
 void drawTitleMonth(WORD month);
+COORD getCoordsToDrawTitleMonth();
 void moveCursor();
 void installCursors();
 void redrawNumber();
@@ -122,9 +124,7 @@ void drawMonthByDays(COORD cursorPos)
 void drawNowDate()
 {
     SYSTEMTIME date = getDate();
-    COORD cursor;
-    cursor.X = 50;
-    cursor.Y = 25;
+    COORD cursor = getCoordsToDrawDate();
 
     SetConsoleCursorPosition(HStdOut, cursor);
     
@@ -134,14 +134,30 @@ void drawNowDate()
     printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
 }
 
+COORD getCoordsToDrawDate()
+{
+    COORD coords = getStartPosition();
+    coords.Y += 17;
+
+    return coords;
+}
+
 void drawTitleMonth(WORD month)
 {
-    COORD cursor;
-    cursor.X = 56;
-    cursor.Y = 3;
+    COORD cursor = getCoordsToDrawTitleMonth();
     SetConsoleCursorPosition(HStdOut, cursor);
 
     printf("< %c%c%c >", Months[month-1][0], Months[month-1][1], Months[month-1][2]);
+}
+
+COORD getCoordsToDrawTitleMonth()
+{
+    COORD coords = getStartPosition();
+    coords.Y -= 3;
+    // 21 is width of calendar
+    coords.X += (21 / 3);
+
+    return coords;
 }
 
 void moveCursor()
@@ -157,27 +173,25 @@ void moveCursor()
         if (c == 'w')
         {
             calendarDays.numberCursor -= 7;
-            redrawNumber();
         }
         else if (c == 'a')
         {
             calendarDays.numberCursor--;
-            redrawNumber();
         }
         else if (c == 's')
         {
             calendarDays.numberCursor += 7;
-            redrawNumber();
         }
         else if (c == 'd')
         {
             calendarDays.numberCursor++;
-            redrawNumber();
         }
         else if (c == '.')
         {
             exit(1);
         }
+        
+        redrawNumber();
     }
 }
 
