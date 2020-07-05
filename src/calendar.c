@@ -1,4 +1,6 @@
-/* @Author: Daniil Maslov*/
+/* @Author: Daniil Maslov */
+
+// #TODO: оно выбрасывает из приложения, когда тыкаешь любую кнопку.
 
 typedef struct
 {
@@ -71,8 +73,8 @@ COORD getStartPosition()
     COORD startPosition;
     ConsoleSize consoleSize = getConsoleSize();
 
-    startPosition.X = ((consoleSize.right / 2) / 2);
-    short x = (startPosition.X / 2) / 2;
+    startPosition.X = ((consoleSize.right / 2) / 4);
+    short x = (startPosition.X / 2) / 4;
     startPosition.X += x*3;
 
     startPosition.Y = 6;
@@ -131,6 +133,7 @@ void drawNowDate()
     printf("Now:   ");
     printf("%c%c%c | ", Months[date.wMonth-1][0], Months[date.wMonth-1][1], Months[date.wMonth-1][2]);
     printf("%d | ", date.wDay);
+    // TODO: тут не выводится weekDays
     printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
 }
 
@@ -186,11 +189,17 @@ void moveCursor()
         {
             calendarDays.numberCursor++;
         }
+        else if (c == '\n')
+        {
+            getNoteToCurrentDay(calendarDays.numberCursor);
+        }
         else if (c == '.')
         {
             exit(1);
         }
         
+        // Делает лишний redrawNumber(), если был нажат enter (/n). 
+        // Но в каждый else if запихивать тоже не вариант.
         redrawNumber();
     }
 }
@@ -214,7 +223,7 @@ void installCursors()
 
 void redrawNumber()
 {
-    calendarDays.coordsCursor = calendarDays.numbersCoords[calendarDays.numberCursor - 1];
+    calendarDays.coordsCursor = calendarDays.numbersCoords[calendarDays.numberCursor-1];
     SetConsoleCursorPosition(HStdOut, calendarDays.coordsCursor);
     printf("%d", calendarDays.numberCursor);
 }

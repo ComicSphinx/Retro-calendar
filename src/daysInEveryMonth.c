@@ -85,7 +85,7 @@ void writeQuantityDaysInEveryMonthInFile()
 
     if ((file = fopen(FILE_NAME_CONTAINS_DAYS_IN_MONTHS, "w")) == NULL)
     {
-        printf("Can't create 'daysInEveryMonth.txt'");
+        printf("Can't create %s", FILE_NAME_CONTAINS_DAYS_IN_MONTHS);
     }
     else
     {

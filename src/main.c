@@ -6,6 +6,7 @@
 
 
 #include "daysInEveryMonth.c"
+#include "note.c"
 #include "calendar.c"
 
 
