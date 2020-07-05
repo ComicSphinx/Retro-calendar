@@ -1,6 +1,6 @@
 /* @Author: Daniil Maslov */
 
-// #TODO: оно выбрасывает из приложения, когда тыкаешь любую кнопку.
+// #FIXME: Не выводится weekDays
 
 typedef struct
 {
