@@ -4,14 +4,16 @@
 #include <stdio.h>
 #include <math.h>
 
-
+#include "main.h"
 #include "daysInEveryMonth.c"
 #include "note.c"
 #include "calendar.c"
 
-
 void main()
 {   
+    HStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(HStdOut, &CsbInfo);
+
     SYSTEMTIME date = getDate();
     
     SetConsoleTitle("Pretty calendar");
@@ -20,5 +22,5 @@ void main()
     drawCalendar();
     drawNowDate();
     drawTitleMonth(date.wMonth);
-    moveCursor();
+    listenToButtonClicks();
 }

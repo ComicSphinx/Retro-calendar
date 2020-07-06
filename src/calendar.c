@@ -1,7 +1,5 @@
 /* @Author: Daniil Maslov */
 
-// #FIXME: Не выводится weekDays
-
 typedef struct
 {
     short monthDays[31];
@@ -21,8 +19,6 @@ typedef struct
 
 
 CalendarDays calendarDays;
-HANDLE HStdOut;
-CONSOLE_SCREEN_BUFFER_INFO CsbInfo;
 char WeekDays[7][3] = {"Mon", "Tue", 
                        "Wed", "Thu", 
                        "Fri", "Sat", 
@@ -42,15 +38,13 @@ void drawNowDate();
 COORD getCoordsToDrawDate();
 void drawTitleMonth(WORD month);
 COORD getCoordsToDrawTitleMonth();
-void moveCursor();
-void installCursors();
+void listenToButtonClicks();
+COORD installCursors();
 void redrawNumber();
 
 
 void drawCalendar()
 {
-    HStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    GetConsoleScreenBufferInfo(HStdOut, &CsbInfo);
     SYSTEMTIME date = getDate();
     short numberOfDays = getDaysInCurrentMonthFromFile(date.wMonth);
 
@@ -76,8 +70,8 @@ COORD getStartPosition()
     startPosition.X = ((consoleSize.right / 2) / 4);
     short x = (startPosition.X / 2) / 4;
     startPosition.X += x*3;
-
-    startPosition.Y = 6;
+    
+    startPosition.Y = 8;
 
     return startPosition;
 }
@@ -140,7 +134,7 @@ void drawNowDate()
 COORD getCoordsToDrawDate()
 {
     COORD coords = getStartPosition();
-    coords.Y += 17;
+    coords.Y += 15;
 
     return coords;
 }
@@ -163,12 +157,11 @@ COORD getCoordsToDrawTitleMonth()
     return coords;
 }
 
-void moveCursor()
-{
-    char c;
-    
+void listenToButtonClicks()
+{    
     installCursors();
 
+    char c;
     while (1)
     {
         c = getchar();
@@ -191,6 +184,7 @@ void moveCursor()
         }
         else if (c == '\n')
         {
+            moveCursorToGetNote(getStartPosition());
             getNoteToCurrentDay(calendarDays.numberCursor);
         }
         else if (c == '.')
@@ -204,7 +198,7 @@ void moveCursor()
     }
 }
 
-void installCursors()
+COORD installCursors()
 {
     SYSTEMTIME date = getDate();
 

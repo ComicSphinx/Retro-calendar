@@ -7,6 +7,7 @@ void showNote();
 char* readNoteFromFile();
 void saveNoteToFile(char* note, int length, short day);
 void getNoteToCurrentDay(short day);
+void moveCursorToGetNote(COORD cursorPos);
 
 void showNote()
 {
@@ -58,6 +59,8 @@ void saveNoteToFile(char* note, int length, short day)
     }
 
     free(note);
+
+    
 }
 
 void getNoteToCurrentDay(short day)
@@ -75,4 +78,10 @@ void getNoteToCurrentDay(short day)
     }
 
     saveNoteToFile(noteText, counter, day);
+}
+
+void moveCursorToGetNote(COORD cursorPos)
+{
+    cursorPos.Y = 2;
+    SetConsoleCursorPosition(HStdOut, cursorPos);
 }
