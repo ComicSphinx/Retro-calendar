@@ -30,7 +30,8 @@ char Months[12][3] = {"Jan", "Feb", "Mar",
                       "Oct", "Nov", "Dec"};
 
 void drawCalendar();
-void fillCalendarDays(short daysNumber);
+short getDaysInCurrentMonth(short* daysInMonths, short monthNumber);
+void fillCalendar(short daysNumber);
 COORD getStartPosition();
 ConsoleSize getConsoleSize();
 void drawMonthByDays(COORD cursorPos);
@@ -46,15 +47,20 @@ void redrawNumber();
 void drawCalendar()
 {
     SYSTEMTIME date = getDate();
-    short numberOfDays = getDaysInCurrentMonthFromFile(date.wMonth);
+    short* daysInMonths = getDaysInMonths();
 
-    fillCalendarDays(numberOfDays);
+    fillCalendar(getDaysInCurrentMonth(daysInMonths, date.wMonth));
 
     COORD startPosition = getStartPosition();
     drawMonthByDays(startPosition);
 }
 
-void fillCalendarDays(short daysNumber)
+short getDaysInCurrentMonth(short* daysInMonths, short monthNumber)
+{
+    return daysInMonths[monthNumber-1];
+}
+
+void fillCalendar(short daysNumber)
 {
     for (int j = 0; j < daysNumber; ++j)
     {

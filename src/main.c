@@ -5,7 +5,7 @@
 #include <math.h>
 
 #include "main.h"
-#include "daysInEveryMonth.c"
+#include "daysInMonths.c"
 #include "note.c"
 #include "calendar.c"
 
@@ -18,7 +18,6 @@ void main()
     
     SetConsoleTitle("Pretty calendar");
     
-    runFillDaysInMonths();
     drawCalendar();
     drawNowDate();
     drawTitleMonth(date.wMonth);
