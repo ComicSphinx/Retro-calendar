@@ -152,7 +152,6 @@ CursorCoords* setCursorPos(CursorCoords* cursorCoords)
 
 void listenToButtonClicks(CursorCoords* cursorCoords)
 {
-    // почему в этой функции курсор перемещается?
     char c;
     while (c != '.')
     {
