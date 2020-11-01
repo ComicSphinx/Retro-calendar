@@ -55,6 +55,47 @@ void drawCalendar(WORD wMonth, CursorCoords* cursorCoords)
     drawCurrentDate();
 }
 
+CursorCoords* setCursorPos(CursorCoords* cursorCoords)
+{
+    SYSTEMTIME date = getDate();
+    cursorCoords ->numberCursor = date.wDay;
+    cursorCoords ->coordsCursor = cursorCoords -> numbersCoords[date.wDay-1];
+    SetConsoleCursorPosition(HStdOut, cursorCoords ->coordsCursor);
+
+    return cursorCoords;
+}
+
+void listenToButtonClicks(CursorCoords* cursorCoords)
+{
+    char c;
+    while (c != '.')
+    {
+        c = getchar();
+        if (c == 'w')
+        {
+            cursorCoords ->numberCursor -= 7;
+        }
+        else if (c == 'a')
+        {
+            cursorCoords ->numberCursor--;
+        }
+        else if (c == 's')
+        {
+            cursorCoords ->numberCursor += 7;
+        }
+        else if (c == 'd')
+        {
+            cursorCoords ->numberCursor++;
+        }
+        else if (c == '\n')
+        {
+            // moveCursorToGetNote(getStartPositionToDraw());
+            // getNoteToCurrentDay(cursorCoords ->numberCursor);
+        }
+        moveCursor(cursorCoords);
+    }
+}
+
 void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords)
 {
     COORD startPosition = getStartPositionToDraw();
@@ -100,6 +141,25 @@ void drawCurrentDate()
     printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
 }
 
+void moveCursor(CursorCoords* cursorCoords)
+{
+    SYSTEMTIME date = getDate();
+    short daysInMonth = getQuantityDaysInMonth(date.wMonth);
+
+    printf("%d", cursorCoords ->numberCursor);
+
+    if (cursorCoords ->numberCursor == daysInMonth+1)
+    {
+        cursorCoords ->numberCursor = 1;
+    }
+    else if (cursorCoords ->numberCursor == 0)
+    {
+        cursorCoords ->numberCursor = daysInMonth;
+    }
+
+    SetConsoleCursorPosition(HStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
+}
+
 COORD getCoordsToDrawTitleMonth()
 {
     COORD coords = getStartPositionToDraw();
@@ -138,64 +198,4 @@ ConsoleCoords getConsoleCoords()
     consoleCoords.bottomPoint = CsbInfo.srWindow.Bottom;
 
     return consoleCoords;
-}
-
-CursorCoords* setCursorPos(CursorCoords* cursorCoords)
-{
-    SYSTEMTIME date = getDate();
-    cursorCoords ->numberCursor = date.wDay;
-    cursorCoords ->coordsCursor = cursorCoords -> numbersCoords[date.wDay-1];
-    SetConsoleCursorPosition(HStdOut, cursorCoords ->coordsCursor);
-
-    return cursorCoords;
-}
-
-void listenToButtonClicks(CursorCoords* cursorCoords)
-{
-    char c;
-    while (c != '.')
-    {
-        c = getchar();
-        if (c == 'w')
-        {
-            cursorCoords ->numberCursor -= 7;
-        }
-        else if (c == 'a')
-        {
-            cursorCoords ->numberCursor--;
-        }
-        else if (c == 's')
-        {
-            cursorCoords ->numberCursor += 7;
-        }
-        else if (c == 'd')
-        {
-            cursorCoords ->numberCursor++;
-        }
-        else if (c == '\n')
-        {
-            // moveCursorToGetNote(getStartPositionToDraw());
-            // getNoteToCurrentDay(cursorCoords ->numberCursor);
-        }
-        moveCursor(cursorCoords);
-    }
-}
-
-void moveCursor(CursorCoords* cursorCoords)
-{
-    SYSTEMTIME date = getDate();
-    short daysInMonth = getQuantityDaysInMonth(date.wMonth);
-
-    printf("%d", cursorCoords ->numberCursor);
-
-    if (cursorCoords ->numberCursor == daysInMonth+1)
-    {
-        cursorCoords ->numberCursor = 1;
-    }
-    else if (cursorCoords ->numberCursor == 0)
-    {
-        cursorCoords ->numberCursor = daysInMonth;
-    }
-
-    SetConsoleCursorPosition(HStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
 }

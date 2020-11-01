@@ -2,7 +2,6 @@
 
 SYSTEMTIME getDate();
 short getQuantityDaysInMonth(short month);
-short* getQuantityDaysInMonths();
 short computeQuantityDaysInMonthOfYear(short month, short year);
 
 
@@ -14,23 +13,10 @@ SYSTEMTIME getDate()
     return date;
 }
 
-short getQuantityDaysInMonth(short month)
-{
-    short* days = getQuantityDaysInMonths();
-    return days[month-1];
-}
-
-short* getQuantityDaysInMonths()
+short getQuantityDaysInMonth(short month) // колво дней в определенном месяце
 {
     SYSTEMTIME date = getDate();
-    short* quantityDaysInMonths = malloc(12*sizeof(short));
-
-    for (int i = 0; i < 12; ++i)
-    {
-        quantityDaysInMonths[i] = computeQuantityDaysInMonthOfYear(i+1, date.wYear);
-    }
-
-    return quantityDaysInMonths;
+    computeQuantityDaysInMonthOfYear(month, date.wYear);
 }
 
 short computeQuantityDaysInMonthOfYear(short month, short year)
