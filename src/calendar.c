@@ -15,10 +15,10 @@ typedef struct
     short bottomPoint;
 } ConsoleCoords;
 
-char WeekDays[7][3] = { "Mon", "Tue", 
-                        "Wed", "Thu", 
-                        "Fri", "Sat", 
-                        "Sun"};
+char WeekDays[7][3] = {"Sun", "Mon", 
+                       "Tue", "Wed",
+                       "Thu", "Fri",
+                       "Sat"};
 
 char Months[12][3] = {"Jan", "Feb", "Mar", 
                       "Apr", "May", "Jun", 
@@ -138,7 +138,7 @@ void drawCurrentDate()
     printf("Now:   ");
     printf("%c%c%c | ", Months[date.wMonth-1][0], Months[date.wMonth-1][1], Months[date.wMonth-1][2]);
     printf("%d | ", date.wDay);
-    printf("%c%c%c", WeekDays[date.wDayOfWeek-1][0], WeekDays[date.wDayOfWeek-1][1], WeekDays[date.wDayOfWeek-1][2]);
+    printf("%c%c%c", WeekDays[date.wDayOfWeek][0], WeekDays[date.wDayOfWeek][1], WeekDays[date.wDayOfWeek][2]);
 }
 
 void moveCursor(CursorCoords* cursorCoords)

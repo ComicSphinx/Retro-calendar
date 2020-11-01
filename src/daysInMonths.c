@@ -4,7 +4,6 @@ SYSTEMTIME getDate();
 short getQuantityDaysInMonth(short month);
 short computeQuantityDaysInMonthOfYear(short month, short year);
 
-
 SYSTEMTIME getDate()
 {
     SYSTEMTIME date;
