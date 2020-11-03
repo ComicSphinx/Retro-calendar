@@ -1,7 +1,8 @@
 /* @Author: Daniil Maslov */
 
-SYSTEMTIME getDate();
 short getQuantityDaysInMonth(short month);
+short* getQuantityDaysInMonths();
+SYSTEMTIME getDate();
 short computeQuantityDaysInMonthOfYear(short month, short year);
 
 short getQuantityDaysInMonth(short month)
