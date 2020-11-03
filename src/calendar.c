@@ -89,8 +89,10 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         }
         else if (c == '\n')
         {
-            // moveCursorToGetNote(getStartPositionToDraw());
-            // getNoteToCurrentDay(cursorCoords ->numberCursor);
+            if (!getStrNote())
+            {
+                printf("error");
+            }
         }
         moveCursor(cursorCoords);
     }
@@ -126,7 +128,7 @@ void drawTitleMonth(WORD wMonth)
     COORD cursorPos = getCoordsToDrawTitleMonth();
     SetConsoleCursorPosition(HStdOut, cursorPos);
 
-    printf("< %c%c%c >", Months[wMonth-1][0], Months[wMonth-1][1], Months[wMonth-1][2]);
+    printf("%c%c%c", Months[wMonth-1][0], Months[wMonth-1][1], Months[wMonth-1][2]);
 }
 
 void drawCurrentDate()
@@ -164,8 +166,6 @@ COORD getCoordsToDrawTitleMonth()
 {
     COORD coords = getStartPositionToDraw();
     coords.Y -= 3;
-    // 21 is width of calendar
-    coords.X += (21/3);
     
     return coords;
 }

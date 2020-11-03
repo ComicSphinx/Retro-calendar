@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 
 #include "main.h"
 #include "daysInMonths.c"
