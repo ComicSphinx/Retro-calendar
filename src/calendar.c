@@ -89,10 +89,7 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         }
         else if (c == '\n')
         {
-            if (!getStrNote())
-            {
-                printf("error");
-            }
+            getStrNote();
         }
         moveCursor(cursorCoords);
     }
