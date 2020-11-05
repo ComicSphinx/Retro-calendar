@@ -89,7 +89,7 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         }
         else if (c == '\n')
         {
-            getStrNote();
+            getStrNote(cursorCoords->coordsCursor);
         }
         moveCursor(cursorCoords);
     }

@@ -1,12 +1,13 @@
 #define FILE_CONTAINS_NOTES "notes.txt"
 #define MAX_LENGTH_NOTE 151
 
-bool getStrNote();
+void getStrNote();
+void prepareStrToGetData(char *str);
 void moveCursorToGetNote();
-bool saveNoteToFile(char *str);
+void saveNoteToFile(char *str);
 void moveCursorBack(COORD coord);
 
-// void getStrNote()
+// void getStrNote(COORD coord)
 // {
 //     char c;
 //     char* noteText = malloc(MAX_LENGTH_NOTE*sizeof(char));
@@ -20,34 +21,33 @@ void moveCursorBack(COORD coord);
 //         ++counter;
 //     }
 //     saveNoteToFile(noteText);
-
 // }
 
-bool getStrNote(COORD coord)
-{   // TODO: оно криво записывает данные в str
+void getStrNote(COORD coord)
+{
     char c;
     char *str = malloc(MAX_LENGTH_NOTE*sizeof(char));
     short counter = 0;
 
+    prepareStrToGetData(str);
     moveCursorToGetNote();
 
-    if (c != '\n' || counter < (MAX_LENGTH_NOTE-1))
+    if (c != '\n' || counter > (MAX_LENGTH_NOTE-1))
     {
         c = getchar();
         str[counter] = c;
         ++counter;
     }
-
-    if (saveNoteToFile(str))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-    
+    saveNoteToFile(str);
     moveCursorBack(coord);
+}
+
+void prepareStrToGetData(char *str)
+{
+    for (int i = 0; i < MAX_LENGTH_NOTE; ++i)
+    {
+        str[i] = ' ';
+    }
 }
 
 void moveCursorToGetNote()
@@ -58,25 +58,21 @@ void moveCursorToGetNote()
     SetConsoleCursorPosition(HStdOut, coord);
 }
 
-bool saveNoteToFile(char *str) // TODO:нужно ли мне bool?
+void saveNoteToFile(char *str)
 {
     FILE *file;
-    if ((file = fopen(FILE_CONTAINS_NOTES, "w")) == NULL) // заменить на a+ / ab, когда эта функция будет работать нормально
+    if ((file = fopen(FILE_CONTAINS_NOTES, "a+")) == NULL) // заменить на a+ / ab, когда эта функция будет работать нормально
     {
-        return false;
+        // тут надо как-то отработать
     }
     else
     {
-        // for (int i = 0; i < (MAX_LENGTH_NOTE-1); ++i)
-        // {
-        //     // fprintf(file, "%c", str[i]);
-        // }
-        fprintf(file, "%c", str[1]);
-        fprintf(file, "\n");
+        for (int i = 0; i < (MAX_LENGTH_NOTE-1); ++i)
+        {
+            fprintf(file, "%c", str[i]); // TODO: пишет только нулевой символ, но не последующие
+        }
+        // fprintf(file, "\n"); нужно ли? a+ должно самостоятельно добавлять строку
         fclose(file);
-
-        
-        return true;
     }
 }
 
