@@ -7,32 +7,16 @@ void moveCursorToGetNote();
 void saveNoteToFile(char *str);
 void moveCursorBack(COORD coord);
 
-// void getStrNote(COORD coord)
-// {
-//     char c;
-//     char* noteText = malloc(MAX_LENGTH_NOTE*sizeof(char));
-//     int counter = 0;
-
-//     while (c != '\n' || counter > (MAX_LENGTH_NOTE-1))
-//     {
-//         c = getchar();
-
-//         noteText[counter] = c;
-//         ++counter;
-//     }
-//     saveNoteToFile(noteText);
-// }
-
 void getStrNote(COORD coord)
 {
-    char c;
+    char c = ' ';
     char *str = malloc(MAX_LENGTH_NOTE*sizeof(char));
     short counter = 0;
 
     prepareStrToGetData(str);
     moveCursorToGetNote();
 
-    if (c != '\n' || counter > (MAX_LENGTH_NOTE-1))
+    while (c != '\n' || counter > (MAX_LENGTH_NOTE-1))
     {
         c = getchar();
         str[counter] = c;
