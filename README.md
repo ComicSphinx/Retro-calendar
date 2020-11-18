@@ -15,4 +15,4 @@ You can use any compiler.
 
  ## Author
    - **Daniil Maslov** -
-    [Desasth](https://github.com/Desasth)
+    [ComicSphinx](https://github.com/ComicSphinx)
