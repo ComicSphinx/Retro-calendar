@@ -1,3 +1,4 @@
+// Author: Daniil Maslov
 #define FILE_CONTAINS_NOTES "notes.txt"
 #define MAX_LENGTH_NOTE 151
 
