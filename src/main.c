@@ -7,8 +7,10 @@
 
 #include "main.h"
 #include "daysInMonths.c"
+#include "interface.c"
 #include "note.c"
 #include "calendar.c"
+
 
 void main()
 {   
