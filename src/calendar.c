@@ -149,17 +149,20 @@ void moveCursor(CursorCoords* cursorCoords)
     SYSTEMTIME date = getDate();
     short daysInMonth = getQuantityDaysInMonth(date.wMonth);
 
-    //printf("%d", cursorCoords ->numberCursor); // перерисовать текущее число
+    // use when you need to debug
+    // it draws current number (where cursor is located)
+    // printf("%d", cursorCoords ->numberCursor);
 
-    if (cursorCoords ->numberCursor == daysInMonth+1) // если курсор стоит на последнем числе
+    if (cursorCoords ->numberCursor == daysInMonth+1)
     {
-        cursorCoords ->numberCursor = 1; // передвинуть на первое число
+        cursorCoords ->numberCursor = 1;
     }
-    else if (cursorCoords ->numberCursor == 0) // если курсор стоит на первом числе
+    else if (cursorCoords ->numberCursor == 0)
     {
-        cursorCoords ->numberCursor = daysInMonth; // передвинуть на последнее число
+        cursorCoords ->numberCursor = daysInMonth;
     }
 
+    drawCalendar(date.wMonth, cursorCoords);
     SetConsoleCursorPosition(HStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
 }
 
