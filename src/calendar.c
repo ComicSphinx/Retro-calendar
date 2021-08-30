@@ -3,7 +3,7 @@
 typedef struct
 {
     short numberCursor;
-    COORD numbersCoords[31];
+    COORD numbersCoords[32];
     COORD coordsCursor;
 } CursorCoords;
 
@@ -34,7 +34,7 @@ COORD getCoordsToDrawTitleMonth();
 COORD getCoordsToDrawDate();
 COORD getStartPositionToDraw();
 ConsoleCoords getConsoleCoords();
-CursorCoords* setCursorPos(CursorCoords* cursorCoords);
+CursorCoords* setStartCursorPos(CursorCoords* cursorCoords);
 void listenToButtonClicks(CursorCoords* cursorCoords);
 void moveCursor(CursorCoords* cursorCoords);
 
@@ -44,7 +44,7 @@ void runCalendar()
     CursorCoords* cursorCoords = malloc(sizeof(CursorCoords));
 
     drawCalendar(date.wMonth, cursorCoords);
-    setCursorPos(cursorCoords);
+    setStartCursorPos(cursorCoords);
     listenToButtonClicks(cursorCoords);
 }
 
@@ -55,7 +55,7 @@ void drawCalendar(WORD wMonth, CursorCoords* cursorCoords)
     drawCurrentDate();
 }
 
-CursorCoords* setCursorPos(CursorCoords* cursorCoords)
+CursorCoords* setStartCursorPos(CursorCoords* cursorCoords)
 {
     SYSTEMTIME date = getDate();
     cursorCoords ->numberCursor = date.wDay;
@@ -87,10 +87,14 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         {
             cursorCoords ->numberCursor++;
         }
-        else if (c == '\n')
-        {
-            getStrNote(cursorCoords->coordsCursor);
-        }
+        // Commented because this fragment breaks down app
+        // I should refactor it and decide how to reailize it with other way
+        // else if (c == 'e')
+        // {
+        //     getStrNote(cursorCoords ->coordsCursor);
+        //
+        // }
+
         moveCursor(cursorCoords);
     }
 }
@@ -145,15 +149,15 @@ void moveCursor(CursorCoords* cursorCoords)
     SYSTEMTIME date = getDate();
     short daysInMonth = getQuantityDaysInMonth(date.wMonth);
 
-    printf("%d", cursorCoords ->numberCursor);
+    //printf("%d", cursorCoords ->numberCursor); // перерисовать текущее число
 
-    if (cursorCoords ->numberCursor == daysInMonth+1)
+    if (cursorCoords ->numberCursor == daysInMonth+1) // если курсор стоит на последнем числе
     {
-        cursorCoords ->numberCursor = 1;
+        cursorCoords ->numberCursor = 1; // передвинуть на первое число
     }
-    else if (cursorCoords ->numberCursor == 0)
+    else if (cursorCoords ->numberCursor == 0) // если курсор стоит на первом числе
     {
-        cursorCoords ->numberCursor = daysInMonth;
+        cursorCoords ->numberCursor = daysInMonth; // передвинуть на последнее число
     }
 
     SetConsoleCursorPosition(HStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
