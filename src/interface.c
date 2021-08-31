@@ -14,9 +14,11 @@ void drawCalendar(WORD wMonth, CursorCoords* cursorCoords);
 void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords);
 void drawTitleMonth(WORD wMonth);
 void drawCurrentDate();
+void drawSeparator();
 COORD getCoordsToDrawTitleMonth();
 COORD getCoordsToDrawDate();
 COORD getStartPositionToDraw();
+COORD getStartPositionOfSeparator();
 ConsoleCoords getConsoleCoords();
 
 void drawCalendar(WORD wMonth, CursorCoords* cursorCoords)
@@ -24,6 +26,7 @@ void drawCalendar(WORD wMonth, CursorCoords* cursorCoords)
     drawMonthByDays(getQuantityDaysInMonth(wMonth), cursorCoords);
     drawTitleMonth(wMonth);
     drawCurrentDate();
+    drawSeparator();
 }
 
 void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords)
@@ -71,6 +74,22 @@ void drawCurrentDate()
     printf("%c%c%c", WeekDays[date.wDayOfWeek][0], WeekDays[date.wDayOfWeek][1], WeekDays[date.wDayOfWeek][2]);
 }
 
+void drawSeparator()
+{
+    COORD cursorPos = getStartPositionOfSeparator();
+    SetConsoleCursorPosition(HStdOut, cursorPos);
+    ConsoleCoords consoleCoords = getConsoleCoords();
+
+    // Надо доработать маленько и более нормально описать, почему именно -3 , или вынести в константу или еще что-то
+    while (cursorPos.Y < (consoleCoords.bottomPoint-5))
+    {
+        printf("|");
+        cursorPos.Y += 1;
+        SetConsoleCursorPosition(HStdOut, cursorPos);
+    }
+
+}
+
 COORD getCoordsToDrawTitleMonth()
 {
     COORD coords = getStartPositionToDraw();
@@ -94,6 +113,16 @@ COORD getStartPositionToDraw()
     short x = (startPos.X / 2) / 4;
     startPos.X += x*3;
     startPos.Y = 8;
+
+    return startPos;
+}
+
+COORD getStartPositionOfSeparator()
+{
+    COORD startPos = getCoordsToDrawTitleMonth();
+    ConsoleCoords consoleCoords = getConsoleCoords();
+    
+    startPos.X = (consoleCoords.rightPoint / 2);
 
     return startPos;
 }
