@@ -18,6 +18,8 @@ void drawSeparator();
 COORD getCoordsToDrawTitleMonth();
 COORD getCoordsToDrawDate();
 COORD getStartPositionToDraw();
+short getTopCoord();
+short getBottomCoord();
 COORD getStartPositionOfSeparator();
 ConsoleCoords getConsoleCoords();
 
@@ -80,8 +82,7 @@ void drawSeparator()
     SetConsoleCursorPosition(HStdOut, cursorPos);
     ConsoleCoords consoleCoords = getConsoleCoords();
 
-    // Надо доработать маленько и более нормально описать, почему именно -3 , или вынести в константу или еще что-то
-    while (cursorPos.Y < (consoleCoords.bottomPoint-5))
+    while (cursorPos.Y < getBottomCoord())
     {
         printf("|");
         cursorPos.Y += 1;
@@ -93,7 +94,7 @@ void drawSeparator()
 COORD getCoordsToDrawTitleMonth()
 {
     COORD coords = getStartPositionToDraw();
-    coords.Y -= 3;
+    coords.Y = getTopCoord() - 3;
     
     return coords;
 }
@@ -112,9 +113,20 @@ COORD getStartPositionToDraw()
     startPos.X = ((consoleCoords.rightPoint / 2) / 4);
     short x = (startPos.X / 2) / 4;
     startPos.X += x*3;
-    startPos.Y = 8;
+    startPos.Y = getTopCoord();
 
     return startPos;
+}
+
+short getTopCoord()
+{
+    return 8;
+}
+
+short getBottomCoord()
+{
+    ConsoleCoords consoleCoords = getConsoleCoords();
+    return (consoleCoords.bottomPoint-5);
 }
 
 COORD getStartPositionOfSeparator()
