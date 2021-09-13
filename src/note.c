@@ -4,9 +4,8 @@
 
 short getStrNote();
 void prepareStrToGetData(char *str);
-void moveCursorToGetNote();
 void saveNoteToFile(char *str);
-void moveCursorBack();
+void drawMessageToGetNote();
 
 short getStrNote()
 {
@@ -15,6 +14,7 @@ short getStrNote()
     short counter = 0;
 
     prepareStrToGetData(str);
+    drawMessageToGetNote();
 
     while (c != '\n' || counter > (MAX_LENGTH_NOTE-1))
     {
@@ -38,14 +38,6 @@ void prepareStrToGetData(char *str)
     }
 }
 
-void moveCursorToGetNote()
-{
-    COORD coord;
-    coord.X = 70;
-    coord.Y = 8;
-    SetConsoleCursorPosition(HStdOut, coord);
-}
-
 void saveNoteToFile(char *str)
 {
     FILE *file;
@@ -64,7 +56,12 @@ void saveNoteToFile(char *str)
     }
 }
 
-void moveCursorBack(COORD coord)
+void drawMessageToGetNote()
 {
+    // надо будет как-то искореннить эти магические числа
+    COORD coord;
+    coord.X = 70;
+    coord.Y = 23;
     SetConsoleCursorPosition(HStdOut, coord);
+    printf("Write your note >> ");
 }

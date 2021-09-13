@@ -53,7 +53,6 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         if(c == 'n')
         {
             int i = 0;
-            moveCursorToGetNote();
             i = getStrNote();
             if (i == 1)
             {
