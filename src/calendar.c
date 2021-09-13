@@ -50,7 +50,7 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         moveCursor(cursorCoords);
 
         // get note
-        if(c == ' ')
+        if(c == 'n')
         {
             int i = 0;
             moveCursorToGetNote();
