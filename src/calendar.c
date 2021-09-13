@@ -47,15 +47,19 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         {
             cursorCoords ->numberCursor++;
         }
-        // Commented because this fragment breaks down app
-        // I should refactor it and decide how to reailize it with other way
-        // else if (c == 'e')
-        // {
-        //     getStrNote(cursorCoords ->coordsCursor);
-        //
-        // }
-
         moveCursor(cursorCoords);
+
+        // get note
+        if(c == ' ')
+        {
+            int i = 0;
+            moveCursorToGetNote();
+            i = getStrNote();
+            if (i == 1)
+            {
+                moveCursor(cursorCoords);
+            }
+        }
     }
 }
 
