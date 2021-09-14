@@ -47,6 +47,7 @@ void listenToButtonClicks(CursorCoords* cursorCoords)
         {
             cursorCoords ->numberCursor++;
         }
+        clearStringToGetNote(); // не знаю, почему оно не работает, когда стоит в get note
         moveCursor(cursorCoords);
 
         // get note

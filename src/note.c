@@ -6,6 +6,7 @@ short getStrNote();
 void prepareStrToGetData(char *str);
 void saveNoteToFile(char *str);
 void drawMessageToGetNote();
+void clearStringToGetNote();
 
 short getStrNote()
 {
@@ -60,8 +61,18 @@ void drawMessageToGetNote()
 {
     // надо будет как-то искореннить эти магические числа
     COORD coord;
-    coord.X = 70;
+    coord.X = 62;
     coord.Y = 23;
     SetConsoleCursorPosition(HStdOut, coord);
-    printf("Write your note >> ");
+    printf(">> ");
+}
+
+void clearStringToGetNote()
+{
+    COORD coord;
+    coord.X = 62;
+    coord.Y = 23;
+    // clear
+    SetConsoleCursorPosition(HStdOut, coord);
+    printf("                                 ");
 }
