@@ -1,4 +1,4 @@
-# Console-Calendar
+# Retro-Calendar
 
 My home-made project. Console calendar. Shows days in a month. There is possible to mark important days. In this project I used special formula which computes days quantity in every month of any year and thanks to this, days quantity in a months will always be correct.
 It does not ready to use right now.
