@@ -2,20 +2,20 @@
 #define FILE_CONTAINS_NOTES "notes.txt"
 #define MAX_LENGTH_NOTE 151
 
-void getStrNote();
+short getStrNote();
 void prepareStrToGetData(char *str);
-void moveCursorToGetNote();
 void saveNoteToFile(char *str);
-void moveCursorBack(COORD coord);
+void drawMessageToGetNote();
+void clearStringToGetNote();
 
-void getStrNote(COORD coord)
+short getStrNote()
 {
     char c = ' ';
     char *str = malloc(MAX_LENGTH_NOTE*sizeof(char));
     short counter = 0;
 
     prepareStrToGetData(str);
-    moveCursorToGetNote();
+    drawMessageToGetNote();
 
     while (c != '\n' || counter > (MAX_LENGTH_NOTE-1))
     {
@@ -24,23 +24,19 @@ void getStrNote(COORD coord)
         ++counter;
     }
     saveNoteToFile(str);
-    moveCursorBack(coord);
+    
+    if (counter > 1)
+    {
+        return 1;
+    }
 }
 
 void prepareStrToGetData(char *str)
-{
+{   // what this method need for? 
     for (int i = 0; i < MAX_LENGTH_NOTE; ++i)
     {
         str[i] = ' ';
     }
-}
-
-void moveCursorToGetNote()
-{
-    COORD coord;
-    coord.X = 70;
-    coord.Y = 8;
-    SetConsoleCursorPosition(HStdOut, coord);
 }
 
 void saveNoteToFile(char *str)
@@ -61,7 +57,22 @@ void saveNoteToFile(char *str)
     }
 }
 
-void moveCursorBack(COORD coord)
+void drawMessageToGetNote()
 {
+    // надо будет как-то искореннить эти магические числа
+    COORD coord;
+    coord.X = 62;
+    coord.Y = 23;
     SetConsoleCursorPosition(HStdOut, coord);
+    printf(">> ");
+}
+
+void clearStringToGetNote()
+{
+    COORD coord;
+    coord.X = 62;
+    coord.Y = 23;
+    // clear
+    SetConsoleCursorPosition(HStdOut, coord);
+    printf("                                 ");
 }
