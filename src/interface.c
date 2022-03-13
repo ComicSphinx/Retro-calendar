@@ -11,7 +11,7 @@ char WeekDays[7][3] = {"Sun", "Mon",
                        "Sat"};
 
 void drawCalendar(CursorCoords* cursorCoords);
-void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short currentDayOfMonth);
+void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short currentDayOfMonth, short selectedDayOfMonth);
 void drawTitleMonth(WORD wMonth);
 void drawCurrentDate(SYSTEMTIME date);
 void drawSeparator();
@@ -27,13 +27,13 @@ void drawCalendar(CursorCoords* cursorCoords)
 {
     SYSTEMTIME date = getDate();
 
-    drawMonthByDays(getQuantityDaysInMonth(date.wMonth), cursorCoords, date.wDay);
+    drawMonthByDays(getQuantityDaysInMonth(date.wMonth), cursorCoords, date.wDay, date.wDay);
     drawTitleMonth(date.wMonth);
     drawCurrentDate(date);
     drawSeparator();
 }
 
-void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short currentDayOfMonth)
+void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short currentDayOfMonth, short selectedDayOfMonth)
 {
     COORD startPosition = getStartPositionToDraw();
     short startCursorPosX = startPosition.X;
@@ -50,6 +50,10 @@ void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short curre
                 if (i+1 == currentDayOfMonth)
                 {
                     SetConsoleTextAttribute(hStdOut, 2);
+                } // cursorCoords ->numberCursor = date.wDay;
+                if (i+1 == selectedDayOfMonth)
+                {
+                    SetConsoleTextAttribute(hStdOut, 12);
                 }
                 cursorCoords ->numbersCoords[i].X = startPosition.X;
                 cursorCoords ->numbersCoords[i].Y = startPosition.Y;
