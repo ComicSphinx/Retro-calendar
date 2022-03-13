@@ -50,7 +50,7 @@ void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short curre
                 if (i+1 == currentDayOfMonth)
                 {
                     SetConsoleTextAttribute(hStdOut, 2);
-                } // cursorCoords ->numberCursor = date.wDay;
+                }
                 if (i+1 == selectedDayOfMonth)
                 {
                     SetConsoleTextAttribute(hStdOut, 12);
