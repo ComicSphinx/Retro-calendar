@@ -1,4 +1,5 @@
 // Author: Daniil Maslov
+
 #define FILE_CONTAINS_NOTES "notes.txt"
 #define MAX_LENGTH_NOTE 151
 
@@ -32,7 +33,7 @@ short getStrNote()
 }
 
 void prepareStrToGetData(char *str)
-{   // what this method need for? 
+{
     for (int i = 0; i < MAX_LENGTH_NOTE; ++i)
     {
         str[i] = ' ';
@@ -63,7 +64,7 @@ void drawMessageToGetNote()
     COORD coord;
     coord.X = 62;
     coord.Y = 23;
-    SetConsoleCursorPosition(HStdOut, coord);
+    SetConsoleCursorPosition(hStdOut, coord);
     printf(">> ");
 }
 
@@ -73,6 +74,6 @@ void clearStringToGetNote()
     coord.X = 62;
     coord.Y = 23;
     // clear
-    SetConsoleCursorPosition(HStdOut, coord);
+    SetConsoleCursorPosition(hStdOut, coord);
     printf("                                 ");
 }
