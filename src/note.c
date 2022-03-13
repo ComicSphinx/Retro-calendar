@@ -1,4 +1,5 @@
 // Author: Daniil Maslov
+
 #define FILE_CONTAINS_NOTES "notes.txt"
 #define MAX_LENGTH_NOTE 151
 
@@ -32,7 +33,7 @@ short getStrNote()
 }
 
 void prepareStrToGetData(char *str)
-{   // what this method need for? 
+{   // TODO: what this method need for? 
     for (int i = 0; i < MAX_LENGTH_NOTE; ++i)
     {
         str[i] = ' ';
