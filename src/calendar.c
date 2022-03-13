@@ -7,10 +7,9 @@ void moveCursor(CursorCoords* cursorCoords);
 
 void runCalendar()
 {
-    SYSTEMTIME date = getDate();
     CursorCoords* cursorCoords = malloc(sizeof(CursorCoords));
 
-    drawCalendar(date.wMonth, cursorCoords);
+    drawCalendar(cursorCoords);
     setStartCursorPos(cursorCoords);
     listenToButtonClicks(cursorCoords);
 }
@@ -20,7 +19,7 @@ CursorCoords* setStartCursorPos(CursorCoords* cursorCoords)
     SYSTEMTIME date = getDate();
     cursorCoords ->numberCursor = date.wDay;
     cursorCoords ->coordsCursor = cursorCoords -> numbersCoords[date.wDay-1];
-    SetConsoleCursorPosition(HStdOut, cursorCoords ->coordsCursor);
+    SetConsoleCursorPosition(hStdOut, cursorCoords ->coordsCursor);
 
     return cursorCoords;
 }
@@ -81,6 +80,6 @@ void moveCursor(CursorCoords* cursorCoords)
         cursorCoords ->numberCursor = daysInMonth;
     }
 
-    drawCalendar(date.wMonth, cursorCoords);
-    SetConsoleCursorPosition(HStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
+    drawCalendar(cursorCoords);
+    SetConsoleCursorPosition(hStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
 }
