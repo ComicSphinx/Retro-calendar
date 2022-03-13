@@ -1,4 +1,4 @@
-/* @Author: Daniil Maslov */
+// @Author: Daniil Maslov
 
 void runCalendar();
 CursorCoords* setStartCursorPos(CursorCoords* cursorCoords);
@@ -80,6 +80,6 @@ void moveCursor(CursorCoords* cursorCoords)
         cursorCoords ->numberCursor = daysInMonth;
     }
 
-    drawCalendar(cursorCoords);
+    drawMonthByDays(getQuantityDaysInMonth(date.wMonth), cursorCoords, date.wDay, cursorCoords ->numberCursor);
     SetConsoleCursorPosition(hStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
 }

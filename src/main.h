@@ -1,4 +1,5 @@
 // Author: Daniil Maslov
+
 HANDLE hStdOut;
 CONSOLE_SCREEN_BUFFER_INFO CsbInfo;
 
