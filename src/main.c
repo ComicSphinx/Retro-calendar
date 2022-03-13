@@ -14,8 +14,8 @@
 
 void main()
 {   
-    HStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    GetConsoleScreenBufferInfo(HStdOut, &CsbInfo);
+    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(hStdOut, &CsbInfo);
     
     system("cls");
     SetConsoleTitle("Pretty calendar");

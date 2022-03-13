@@ -28,14 +28,13 @@ void drawCalendar(CursorCoords* cursorCoords)
     SYSTEMTIME date = getDate();
 
     drawMonthByDays(getQuantityDaysInMonth(date.wMonth), cursorCoords, date.wDay);
-    drawTitleMonth(date.wMonth); // TODO: мб из date получать?
+    drawTitleMonth(date.wMonth);
     drawCurrentDate(date);
     drawSeparator();
 }
 
-void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short currentDayOfMonth) // получать текущий день, и if i = today do print with color SetConsoleTextAttribute(hStdOut, 2);
+void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short currentDayOfMonth)
 {
-    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE); // # TODO надо бы в drawCalendar вынести на всякий
     COORD startPosition = getStartPositionToDraw();
     short startCursorPosX = startPosition.X;
     short i = 0;
@@ -44,9 +43,10 @@ void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short curre
     {
         for (short columns = 0; columns < 7; ++columns)
         {
-            SetConsoleCursorPosition(HStdOut, startPosition);
+            SetConsoleCursorPosition(hStdOut, startPosition);
             if (i+1 <= quantityDays)
             {
+                // Если число == сегодняшний день, отрисовать его другим цветом
                 if (i+1 == currentDayOfMonth)
                 {
                     SetConsoleTextAttribute(hStdOut, 2);
@@ -55,6 +55,7 @@ void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short curre
                 cursorCoords ->numbersCoords[i].Y = startPosition.Y;
                 printf("%d", i+1);
                 ++i;
+                // Остальные числа отрисовывать серым
                 SetConsoleTextAttribute(hStdOut, 7);
             }
             startPosition.X += 3;
@@ -67,7 +68,7 @@ void drawMonthByDays(short quantityDays, CursorCoords* cursorCoords, short curre
 void drawTitleMonth(WORD wMonth)
 {
     COORD cursorPos = getCoordsToDrawTitleMonth();
-    SetConsoleCursorPosition(HStdOut, cursorPos);
+    SetConsoleCursorPosition(hStdOut, cursorPos);
 
     printf("%c%c%c", Months[wMonth-1][0], Months[wMonth-1][1], Months[wMonth-1][2]);
 }
@@ -75,7 +76,7 @@ void drawTitleMonth(WORD wMonth)
 void drawCurrentDate(SYSTEMTIME date)
 {
     COORD cursorPos = getCoordsToDrawDate();
-    SetConsoleCursorPosition(HStdOut, cursorPos);
+    SetConsoleCursorPosition(hStdOut, cursorPos);
 
     printf("Now:   ");
     printf("%c%c%c | ", Months[date.wMonth-1][0], Months[date.wMonth-1][1], Months[date.wMonth-1][2]);
@@ -86,14 +87,14 @@ void drawCurrentDate(SYSTEMTIME date)
 void drawSeparator()
 {
     COORD cursorPos = getStartPositionOfSeparator();
-    SetConsoleCursorPosition(HStdOut, cursorPos);
+    SetConsoleCursorPosition(hStdOut, cursorPos);
     ConsoleCoords consoleCoords = getConsoleCoords();
 
     while (cursorPos.Y < getBottomCoord())
     {
         printf("|");
         cursorPos.Y += 1;
-        SetConsoleCursorPosition(HStdOut, cursorPos);
+        SetConsoleCursorPosition(hStdOut, cursorPos);
     }
 
 }

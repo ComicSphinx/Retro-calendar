@@ -19,7 +19,7 @@ CursorCoords* setStartCursorPos(CursorCoords* cursorCoords)
     SYSTEMTIME date = getDate();
     cursorCoords ->numberCursor = date.wDay;
     cursorCoords ->coordsCursor = cursorCoords -> numbersCoords[date.wDay-1];
-    SetConsoleCursorPosition(HStdOut, cursorCoords ->coordsCursor);
+    SetConsoleCursorPosition(hStdOut, cursorCoords ->coordsCursor);
 
     return cursorCoords;
 }
@@ -81,5 +81,5 @@ void moveCursor(CursorCoords* cursorCoords)
     }
 
     drawCalendar(cursorCoords);
-    SetConsoleCursorPosition(HStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
+    SetConsoleCursorPosition(hStdOut, cursorCoords ->numbersCoords[cursorCoords ->numberCursor-1]);
 }
