@@ -1,5 +1,6 @@
 // Author: Daniil Maslov
-HANDLE HStdOut;
+
+HANDLE hStdOut;
 CONSOLE_SCREEN_BUFFER_INFO CsbInfo;
 
 typedef struct
