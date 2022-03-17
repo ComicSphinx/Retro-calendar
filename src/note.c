@@ -33,7 +33,7 @@ short getStrNote()
 }
 
 void prepareStrToGetData(char *str)
-{   // TODO: what this method need for? 
+{
     for (int i = 0; i < MAX_LENGTH_NOTE; ++i)
     {
         str[i] = ' ';
