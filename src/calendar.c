@@ -27,7 +27,7 @@ CursorCoords* setStartCursorPos(CursorCoords* cursorCoords)
 void listenToButtonClicks(CursorCoords* cursorCoords)
 {
     char c;
-    while (c != '.')
+    while (c != 'q')
     {
         c = getchar();
         if (c == 'w')
