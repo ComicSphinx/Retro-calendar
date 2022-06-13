@@ -9,6 +9,8 @@
 You can use any compiler.
 ### How to run
     ./a.exe
+    
+You may move cursor using W A S D buttons
 
  ## Author
    - **Daniil Maslov** -
